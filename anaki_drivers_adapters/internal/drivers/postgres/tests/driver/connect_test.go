@@ -15,7 +15,7 @@ func TestPostgresDriver_Connect_Success(t *testing.T) {
 	db := &driver.PostgresDriver{}
 
 	config := types.Config{
-		URL: "",
+		URL: "postgresql://redepetuser:redepet123@localhost:5432/redepetdb",
 	}
 
 	err := db.Connect(ctx, config)
