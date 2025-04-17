@@ -1,15 +1,15 @@
 package driver
 
 import (
-	"anaki_drivers_adapters/adapter"
-	"anaki_drivers_adapters/types"
+	"anaki_drivers_adapters/shared/interfaces"
+	"anaki_drivers_adapters/shared/types"
 	"context"
 	"errors"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-var _ adapter.DBAdapter = (*PostgresDriver)(nil)
+var _ interfaces.DBAdapter = (*PostgresDriver)(nil)
 
 func (p *PostgresDriver) Connect(ctx context.Context, config types.Config) error {
 

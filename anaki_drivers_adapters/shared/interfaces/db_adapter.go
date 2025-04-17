@@ -1,7 +1,7 @@
-package adapter
+package interfaces
 
 import (
-	"anaki_drivers_adapters/types"
+	"anaki_drivers_adapters/shared/types"
 	"context"
 )
 

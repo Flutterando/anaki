@@ -4,7 +4,7 @@ import (
 	"anaki_postgres/driver"
 	"context"
 
-	"anaki_drivers_adapters/types"
+	"anaki_drivers_adapters/shared/types"
 
 	"testing"
 )
