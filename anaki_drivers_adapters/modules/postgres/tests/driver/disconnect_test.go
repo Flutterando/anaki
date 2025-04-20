@@ -5,9 +5,9 @@ import (
 	"context"
 	"os"
 
-	"anaki_drivers_adapters/shared/types"
-
 	"testing"
+
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
 )
 
 func TestPostgresDriver_Disconnect_Success(t *testing.T) {

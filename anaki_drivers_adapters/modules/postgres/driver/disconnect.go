@@ -1,8 +1,6 @@
 package driver
 
-import (
-	"anaki_drivers_adapters/shared/interfaces"
-)
+import "github.com/flutterando/anaki/anaki_drivers_adapters/shared/interfaces"
 
 var _ interfaces.DBAdapter = (*PostgresDriver)(nil)
 

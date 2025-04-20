@@ -1,8 +1,7 @@
 package driver
 
 import (
-	"anaki_drivers_adapters/shared/interfaces"
-
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/interfaces"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

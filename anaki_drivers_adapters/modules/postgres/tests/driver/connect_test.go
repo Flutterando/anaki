@@ -1,18 +1,19 @@
 package driver_test
 
 import (
-	"anaki_drivers_adapters/shared/types"
 	"anaki_postgres/driver"
 	"context"
 	"os"
 
 	"testing"
+
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
 )
 
 func TestPostgresDriver_Connect_Success(t *testing.T) {
 	connStr := os.Getenv("POSTGRES_TEST_DATABASE_URL")
 
-    config := types.Config{
+	config := types.Config{
 		URL: connStr,
 	}
 

@@ -2,7 +2,12 @@ module anaki_postgres
 
 go 1.24.2
 
-require github.com/jackc/pgx/v5 v5.7.4
+replace github.com/flutterando/anaki/anaki_drivers_adapters/shared => ../../shared
+
+require (
+	github.com/flutterando/anaki/anaki_drivers_adapters/shared v0.0.0-00010101000000-000000000000
+	github.com/jackc/pgx/v5 v5.7.4
+)
 
 require (
 	github.com/jackc/pgpassfile v1.0.0 // indirect
@@ -11,5 +16,4 @@ require (
 	golang.org/x/crypto v0.35.0 // indirect
 	golang.org/x/sync v0.11.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
-  github.com/flutterando/anaki/anaki_drivers_adapters/shared v0.0.0
 )

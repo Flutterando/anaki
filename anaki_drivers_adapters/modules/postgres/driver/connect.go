@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/interfaces"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
