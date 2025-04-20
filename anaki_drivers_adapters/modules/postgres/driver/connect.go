@@ -1,8 +1,6 @@
 package driver
 
 import (
-	"anaki_drivers_adapters/shared/interfaces"
-	"anaki_drivers_adapters/shared/types"
 	"context"
 	"errors"
 
