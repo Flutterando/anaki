@@ -35,8 +35,7 @@ jobs:
           go-version: '1.24.2'
 
       - name: Set environment variable for Postgres
-        run: |
-          export POSTGRES_TEST_DATABASE_URL=postgresql://testuser:testpassword@localhost:5432/testdb?sslmode=disable
+        run: echo "POSTGRES_TEST_DATABASE_URL=postgresql://testuser:testpassword@localhost:5432/testdb?sslmode=disable" >> $GITHUB_ENV
 
       - name: Run tests
         working-directory: ./anaki_drivers_adapters/modules/postgres
