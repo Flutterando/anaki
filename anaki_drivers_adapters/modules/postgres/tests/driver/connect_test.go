@@ -29,3 +29,23 @@ func TestPostgresDriver_Connect_ShouldSucceed(t *testing.T) {
 		t.Fatal("expected connection pool to be initialized, got nil")
 	}
 }
+
+func TestPostgresDriver_Connect_ShouldFailWithInvalidCredentials(t *testing.T) {
+	connStr := "postgresql://wrong:wrong123@localhost:5432/wrongdb"
+
+	config := types.Config{
+		URL: connStr,
+	}
+
+	ctx := context.Background()
+	db := &driver.PostgresDriver{}
+
+	err := db.Connect(ctx, config)
+	if err == nil {
+		t.Fatal("expected an error when connecting with invalid credentials, got nil")
+	}
+
+	if db.Conn != nil {
+		t.Fatal("expected connection pool to be nil after failed connection, but it was initialized")
+	}
+}
