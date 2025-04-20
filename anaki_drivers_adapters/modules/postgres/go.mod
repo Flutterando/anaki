@@ -1,4 +1,4 @@
-module anaki_postgres
+module github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres
 
 go 1.24.2
 

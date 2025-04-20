@@ -1,8 +1,9 @@
 package interfaces
 
 import (
-	"anaki_drivers_adapters/shared/types"
 	"context"
+
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
 )
 
 type DBAdapter interface {

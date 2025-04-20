@@ -1,12 +1,12 @@
 package driver_test
 
 import (
-	"anaki_postgres/driver"
 	"context"
 	"os"
 
 	"testing"
 
+	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
 	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
 )
 
