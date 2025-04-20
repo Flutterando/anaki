@@ -14,7 +14,7 @@ func TestConvertNamedParams(t *testing.T) {
 		"age":  25,
 	}
 
-	expectedQuery := "INSERT INTO users (name, age, sex) VALUES ($1, $2)"
+	expectedQuery := "INSERT INTO users (name, age) VALUES ($1, $2)"
 	expectedArgs := []interface{}{"Marcos", 25}
 
 	finalQuery, args, err := utils.ConvertNamedParams(query, params)
