@@ -1,3 +1,3 @@
-module anaki_driver_adapter_shared
+module shared
 
 go 1.24.2
