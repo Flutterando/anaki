@@ -10,7 +10,7 @@ func ConvertNamedParams(query string, params map[string]interface{}) (string, []
 	re := regexp.MustCompile(`:\w+`)
 	matches := re.FindAllString(query, -1)
 	if len(matches) == 0 {
-		return query, nil, fmt.Errorf("no parameters found in query")
+		return query, nil, nil
 	}
 
 	uniqueParams := make(map[string]struct{})
@@ -23,8 +23,6 @@ func ConvertNamedParams(query string, params map[string]interface{}) (string, []
 			orderedParams = append(orderedParams, param)
 		}
 	}
-
-	// sort.Strings(orderedParams)
 
 	args := make([]interface{}, len(orderedParams))
 	for i, param := range orderedParams {
