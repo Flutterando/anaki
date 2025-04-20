@@ -3,6 +3,7 @@ package driver_test
 import (
 	"anaki_postgres/driver"
 	"context"
+	"os"
 
 	"anaki_drivers_adapters/shared/types"
 
@@ -10,13 +11,14 @@ import (
 )
 
 func TestPostgresDriver_Disconnect_Success(t *testing.T) {
+	connStr := os.Getenv("POSTGRES_TEST_DATABASE_URL")
+
+	config := types.Config{
+		URL: connStr,
+	}
 
 	ctx := context.Background()
 	db := &driver.PostgresDriver{}
-
-	config := types.Config{
-		URL: "",
-	}
 
 	err := db.Connect(ctx, config)
 	if err != nil {
