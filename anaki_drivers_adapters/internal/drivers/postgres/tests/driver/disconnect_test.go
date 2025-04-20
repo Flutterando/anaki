@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestPostgresDriver_Connect_Success(t *testing.T) {
+func TestPostgresDriver_Disconnect_Success(t *testing.T) {
 
 	ctx := context.Background()
 	db := &driver.PostgresDriver{}
@@ -25,5 +25,15 @@ func TestPostgresDriver_Connect_Success(t *testing.T) {
 
 	if db.Conn == nil {
 		t.Fatal("Connect() did not initialize connection pool")
+	}
+
+	err = db.Disconnect()
+
+	if err != nil {
+		t.Fatalf("Disconnect() error = %v", err)
+	}
+
+	if db.Conn != nil {
+		t.Fatal("Disconnect() did not properly close connection")
 	}
 }
