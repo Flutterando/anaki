@@ -7,6 +7,10 @@ import (
 )
 
 func ConvertNamedParams(query string, params map[string]interface{}) (string, []interface{}, error) {
+	if !strings.Contains(query, ":") {
+		return query, []interface{}{}, nil
+	}
+
 	re := regexp.MustCompile(`:\w+`)
 	matches := re.FindAllString(query, -1)
 	if len(matches) == 0 {
