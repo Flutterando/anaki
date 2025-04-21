@@ -7,13 +7,13 @@ import (
 	"testing"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
 )
 
 func TestPostgresDriver_Disconnect_ShouldSucceed(t *testing.T) {
 	connStr := os.Getenv("POSTGRES_TEST_DATABASE_URL")
 
-	config := types.Config{
+	config := contracts.Config{
 		URL: connStr,
 	}
 

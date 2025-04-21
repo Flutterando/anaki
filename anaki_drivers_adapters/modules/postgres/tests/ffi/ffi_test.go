@@ -5,13 +5,13 @@ import (
 	"testing"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/ffi"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
 )
 
 func TestPostgresFFIDatabaseConnection(t *testing.T) {
 	connStr := os.Getenv("POSTGRES_TEST_DATABASE_URL")
 
-	result := ffi.SetupDatabaseConnection(types.Config{
+	result := ffi.SetupDatabaseConnection(contracts.Config{
 		URL: connStr,
 	})
 
@@ -23,7 +23,7 @@ func TestPostgresFFIDatabaseConnection(t *testing.T) {
 func TestPostgresFFIDatabaseConnectionFailed(t *testing.T) {
 	connStr := "postgres://invaliduser:invalidpass@localhost:5432/testdb"
 
-	result := ffi.SetupDatabaseConnection(types.Config{
+	result := ffi.SetupDatabaseConnection(contracts.Config{
 		URL: connStr,
 	})
 

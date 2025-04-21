@@ -10,10 +10,10 @@ import (
 	"fmt"
 	"unsafe"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
 )
 
-func SetupDatabaseConnection(config types.Config) string {
+func SetupDatabaseConnection(config contracts.Config) string {
 	configJson, err := json.Marshal(config)
 	if err != nil {
 		return fmt.Sprintf("Error marshaling config: %v", err)

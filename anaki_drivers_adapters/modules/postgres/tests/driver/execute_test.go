@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
 )
 
 func setupDriver(t *testing.T) *driver.PostgresDriver {
@@ -15,7 +15,7 @@ func setupDriver(t *testing.T) *driver.PostgresDriver {
 		t.Fatal("POSTGRES_TEST_DATABASE_URL is not set")
 	}
 
-	config := types.Config{
+	config := contracts.Config{
 		URL: connStr,
 	}
 

@@ -1,8 +1,8 @@
 package driver
 
-import "github.com/flutterando/anaki/anaki_drivers_adapters/shared/interfaces"
+import "github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
 
-var _ interfaces.DBAdapter = (*PostgresDriver)(nil)
+var _ contracts.DriverAdapter = (*PostgresDriver)(nil)
 
 func (p *PostgresDriver) Disconnect() error {
 	if p.Conn == nil {

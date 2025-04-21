@@ -1,18 +1,20 @@
-package interfaces
+package contracts
 
 import (
 	"context"
-
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
 )
+
+type Config struct {
+	URL string
+}
 
 type ExecuteResult struct {
 	Rows         []map[string]interface{}
 	RowsAffected int64
 }
 
-type DBAdapter interface {
-	Connect(ctx context.Context, config types.Config) error
+type DriverAdapter interface {
+	Connect(ctx context.Context, config Config) error
 	Disconnect() error
 	Execute(ctx context.Context, query string, args map[string]interface{}) (*ExecuteResult, error)
 }

@@ -7,13 +7,13 @@ import (
 	"strings"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/utils"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/interfaces"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
-func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*interfaces.ExecuteResult, error) {
-	var emptyExecuteResult = &interfaces.ExecuteResult{
+func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*contracts.ExecuteResult, error) {
+	var emptyExecuteResult = &contracts.ExecuteResult{
 		Rows:         []map[string]interface{}{{}},
 		RowsAffected: 0,
 	}
@@ -55,7 +55,7 @@ func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[str
 			return emptyExecuteResult, err
 		}
 
-		return &interfaces.ExecuteResult{
+		return &contracts.ExecuteResult{
 			Rows:         processedRows,
 			RowsAffected: 0,
 		}, nil
@@ -72,7 +72,7 @@ func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[str
 		return emptyExecuteResult, err
 	}
 
-	return &interfaces.ExecuteResult{
+	return &contracts.ExecuteResult{
 		Rows:         []map[string]interface{}{{}},
 		RowsAffected: result.RowsAffected(),
 	}, nil

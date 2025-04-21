@@ -10,14 +10,14 @@ import (
 	"fmt"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/types"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
 )
 
 //export Connect
 func Connect(configJson *C.char) *C.char {
 	configStr := C.GoString(configJson)
 
-	var cfg types.Config
+	var cfg contracts.Config
 	err := json.Unmarshal([]byte(configStr), &cfg)
 	if err != nil {
 		return C.CString(fmt.Sprintf("Invalid config JSON: %v", err))
