@@ -7,20 +7,20 @@ import "C"
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
 	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/ffi"
 )
 
 //export Connect
-func Connect(configJson *C.char) *C.char {
+func Connect(configJson *C.char) C.int {
 	configStr := C.GoString(configJson)
 
 	var cfg contracts.Config
 	err := json.Unmarshal([]byte(configStr), &cfg)
 	if err != nil {
-		return C.CString(fmt.Sprintf("Invalid config JSON: %v", err))
+		return ffistatus.SQL_ERROR
 	}
 
 	driver := &driver.PostgresDriver{}
@@ -28,22 +28,25 @@ func Connect(configJson *C.char) *C.char {
 
 	err = driver.Connect(ctx, cfg)
 	if err != nil {
-		return C.CString(fmt.Sprintf("Connection failed: %v", err))
+		return ffistatus.SQL_ERROR
 	}
 
-	return C.CString("Connection successful")
+	return ffistatus.SQL_SUCCESS
 }
 
 //export Close
-func Close() *C.char {
+func Close() C.int {
 	driver := &driver.PostgresDriver{}
+
+	if driver == nil {
+		return ffistatus.SQL_INVALID_HANDLE
+	}
 
 	err := driver.Disconnect()
 	if err != nil {
-		return C.CString(fmt.Sprintf("Error disconnecting database: %v", err))
+		return ffistatus.SQL_ERROR
 	}
 
 	driver = nil
-
-	return C.CString("Database disconnected successfully")
+	return ffistatus.SQL_SUCCESS
 }

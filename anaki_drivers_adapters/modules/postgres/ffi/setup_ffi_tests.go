@@ -7,25 +7,25 @@ package ffi
 import "C"
 import (
 	"encoding/json"
-	"fmt"
 	"unsafe"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/ffi"
 )
 
-func SetupDatabaseConnection(config contracts.Config) string {
+func SetupDatabaseConnection(config contracts.Config) int {
 	configJson, err := json.Marshal(config)
 	if err != nil {
-		return fmt.Sprintf("Error marshaling config: %v", err)
+		return ffistatus.SQL_ERROR
 	}
 
 	cConfigJson := C.CString(string(configJson))
 	defer C.free(unsafe.Pointer(cConfigJson))
 
 	result := Connect(cConfigJson)
-	return C.GoString(result)
+	return int(result)
 }
 
-func SetupDatabaseClose() string {
-	return C.GoString(Close())
+func SetupDatabaseClose() int {
+	return int(Close())
 }
