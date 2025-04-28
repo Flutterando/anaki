@@ -19,6 +19,10 @@ func TestPostgresFFIDatabaseConnection(t *testing.T) {
 	if result != ffistatus.SQL_SUCCESS {
 		t.Errorf("Database connection failed. Expected status %d (SQL_SUCCESS), got: %d", ffistatus.SQL_SUCCESS, result)
 	}
+
+	t.Cleanup(func() {
+		ffi.SetupDatabaseClose()
+	})
 }
 
 func TestPostgresFFIDatabaseConnectionFailed(t *testing.T) {

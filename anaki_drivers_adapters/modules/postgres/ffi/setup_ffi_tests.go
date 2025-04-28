@@ -29,3 +29,9 @@ func SetupDatabaseConnection(config contracts.Config) int {
 func SetupDatabaseClose() int {
 	return int(Close())
 }
+
+func SetupDatabaseExecute(query string, params string) (string, int) {
+	resultJson, status := Execute(C.CString(query), C.CString(params))
+
+	return C.GoString(resultJson), int(status)
+}
