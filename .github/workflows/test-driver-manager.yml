@@ -1,0 +1,46 @@
+name: Test Dart PostgreSQL driver
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Dart
+        uses: dart-lang/setup-dart@v3
+        with:
+          dart-version: "stable"
+
+      - name: Set environment variable for Postgres
+        run: echo "POSTGRES_TEST_DATABASE_URL=postgresql://testuser:testpassword@localhost:5432/testdb" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: dart pub get
+        working-directory: ./anaki_driver_manager
+
+      - name: Run tests
+        run: dart test
+        working-directory: ./anaki_driver_manager
