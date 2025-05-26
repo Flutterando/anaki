@@ -1,4 +1,4 @@
-package driver
+package postgres
 
 import (
 	"context"
@@ -6,20 +6,16 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/utils"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
+	sqlparams "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/sql_params"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 )
 
-func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*contracts.ExecuteResult, error) {
-	var emptyExecuteResult = &contracts.ExecuteResult{
-		Rows:         []map[string]interface{}{{}},
-		RowsAffected: 0,
-	}
+func (p *Driver) Execute(ctx context.Context, query string, args map[string]interface{}) (*driver.ExecuteResult, error) {
 
 	if query == "" {
-		return emptyExecuteResult, errors.New("query is required")
+		return nil, errors.New("query is required")
 	}
 
 	var queryResult string
@@ -27,9 +23,9 @@ func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[str
 	var err error
 
 	if len(args) > 0 {
-		queryResult, argsResult, err = utils.ConvertNamedParams(query, args)
+		queryResult, argsResult, err = sqlparams.ConvertNamedParamsToDollar(query, args)
 		if err != nil {
-			return emptyExecuteResult, err
+			return nil, err
 		}
 	} else {
 		queryResult = query
@@ -46,16 +42,16 @@ func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[str
 			rows, err = p.Conn.Query(ctx, queryResult, argsResult...)
 		}
 		if err != nil {
-			return emptyExecuteResult, err
+			return nil, err
 		}
 		defer rows.Close()
 
 		processedRows, err := p.processRow(rows)
 		if err != nil {
-			return emptyExecuteResult, err
+			return nil, err
 		}
 
-		return &contracts.ExecuteResult{
+		return &driver.ExecuteResult{
 			Rows:         processedRows,
 			RowsAffected: 0,
 		}, nil
@@ -69,16 +65,16 @@ func (p *PostgresDriver) Execute(ctx context.Context, query string, args map[str
 	}
 
 	if err != nil {
-		return emptyExecuteResult, err
+		return nil, err
 	}
 
-	return &contracts.ExecuteResult{
+	return &driver.ExecuteResult{
 		Rows:         []map[string]interface{}{{}},
 		RowsAffected: result.RowsAffected(),
 	}, nil
 }
 
-func (p *PostgresDriver) processRow(rows pgx.Rows) ([]map[string]interface{}, error) {
+func (p *Driver) processRow(rows pgx.Rows) ([]map[string]interface{}, error) {
 	var result []map[string]interface{}
 	fieldDescriptions := rows.FieldDescriptions()
 

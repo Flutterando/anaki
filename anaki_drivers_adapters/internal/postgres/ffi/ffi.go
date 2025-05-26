@@ -9,12 +9,12 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/ffi"
+	postgres "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
 )
 
-var postgresDriver *driver.PostgresDriver
+var postgresDriver *postgres.Driver
 
 //export Connect
 func Connect(configJson *C.char) C.int {
@@ -23,13 +23,13 @@ func Connect(configJson *C.char) C.int {
 	}
 
 	configStr := C.GoString(configJson)
-	var cfg contracts.Config
+	var cfg driver.Config
 	err := json.Unmarshal([]byte(configStr), &cfg)
 	if err != nil {
 		return ffistatus.SQL_ERROR
 	}
 
-	postgresDriver = &driver.PostgresDriver{}
+	postgresDriver = &postgres.Driver{}
 	ctx := context.Background()
 
 	err = postgresDriver.Connect(ctx, cfg)

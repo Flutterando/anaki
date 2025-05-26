@@ -9,11 +9,11 @@ import (
 	"encoding/json"
 	"unsafe"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/ffi"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
 )
 
-func SetupDatabaseConnection(config contracts.Config) int {
+func SetupDatabaseConnection(config driver.Config) int {
 	configJson, err := json.Marshal(config)
 	if err != nil {
 		return ffistatus.SQL_ERROR

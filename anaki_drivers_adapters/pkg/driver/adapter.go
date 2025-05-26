@@ -1,17 +1,6 @@
-package contracts
+package driver
 
-import (
-	"context"
-)
-
-type Config struct {
-	URL string
-}
-
-type ExecuteResult struct {
-	Rows         []map[string]interface{}
-	RowsAffected int64
-}
+import "context"
 
 type DriverAdapter interface {
 	Connect(ctx context.Context, config Config) error

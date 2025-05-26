@@ -1,17 +1,14 @@
-package driver
+package postgres
 
 import (
 	"context"
 	"errors"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-var _ contracts.DriverAdapter = (*PostgresDriver)(nil)
-
-func (p *PostgresDriver) Connect(ctx context.Context, config contracts.Config) error {
+func (p *Driver) Connect(ctx context.Context, config driver.Config) error {
 
 	if config.URL == "" {
 		return errors.New("database url is required")

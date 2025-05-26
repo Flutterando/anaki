@@ -1,10 +1,10 @@
-package utils_test
+package sqlparams_test
 
 import (
 	"reflect"
 	"testing"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/utils"
+	sqlparams "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/sql_params"
 )
 
 func TestConvertNamedParams(t *testing.T) {
@@ -17,7 +17,7 @@ func TestConvertNamedParams(t *testing.T) {
 	expectedQuery := "INSERT INTO users (name, age) VALUES ($1, $2)"
 	expectedArgs := []interface{}{"Marcos", 25}
 
-	finalQuery, args, err := utils.ConvertNamedParams(query, params)
+	finalQuery, args, err := sqlparams.ConvertNamedParamsToDollar(query, params)
 	if err != nil {
 		t.Fatalf("expected no error, got %v", err)
 	}
