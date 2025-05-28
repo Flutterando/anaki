@@ -2,10 +2,11 @@ package driver
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var _ contracts.DriverAdapter = (*MySQLDriver)(nil)
@@ -15,16 +16,16 @@ func (d *MySQLDriver) Connect(ctx context.Context, config contracts.Config) erro
 		return errors.New("database url is required")
 	}
 
-	conn, err := pgxpool.New(ctx, config.URL)
+	db, err := sql.Open("mysql", config.URL)
 	if err != nil {
 		return err
 	}
 
-	if err := conn.Ping(context.Background()); err != nil {
-		conn.Close()
+	if err := db.PingContext(ctx); err != nil {
+		db.Close()
 		return err
 	}
 
-	d.Conn = conn
+	d.Conn = db
 	return nil
 }

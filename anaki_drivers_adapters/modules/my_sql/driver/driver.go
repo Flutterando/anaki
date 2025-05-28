@@ -1,12 +1,14 @@
 package driver
 
 import (
+	"database/sql"
+
 	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-	"github.com/jackc/pgx/v5/pgxpool"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 type MySQLDriver struct {
-	Conn *pgxpool.Pool
+	Conn *sql.DB
 }
 
 func NewMySQLDriver() *MySQLDriver {

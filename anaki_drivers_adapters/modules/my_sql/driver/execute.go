@@ -2,14 +2,14 @@ package driver
 
 import (
 	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"strings"
 
 	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/utils"
 	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgconn"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*contracts.ExecuteResult, error) {
@@ -39,11 +39,11 @@ func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string
 	isSelect := strings.HasPrefix(strings.ToUpper(strings.TrimSpace(queryResult)), "SELECT")
 
 	if isSelect {
-		var rows pgx.Rows
+		var rows *sql.Rows
 		if argsResult == nil {
-			rows, err = p.Conn.Query(ctx, queryResult)
+			rows, err = p.Conn.QueryContext(ctx, queryResult)
 		} else {
-			rows, err = p.Conn.Query(ctx, queryResult, argsResult...)
+			rows, err = p.Conn.QueryContext(ctx, queryResult, argsResult...)
 		}
 		if err != nil {
 			return emptyExecuteResult, err
@@ -61,32 +61,40 @@ func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string
 		}, nil
 	}
 
-	var result pgconn.CommandTag
+	var result sql.Result
 	if argsResult == nil {
-		result, err = p.Conn.Exec(ctx, queryResult)
+		result, err = p.Conn.ExecContext(ctx, queryResult)
 	} else {
-		result, err = p.Conn.Exec(ctx, queryResult, argsResult...)
+		result, err = p.Conn.ExecContext(ctx, queryResult, argsResult...)
 	}
 
 	if err != nil {
 		return emptyExecuteResult, err
 	}
 
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return emptyExecuteResult, err
+	}
+
 	return &contracts.ExecuteResult{
 		Rows:         []map[string]interface{}{{}},
-		RowsAffected: result.RowsAffected(),
+		RowsAffected: rowsAffected,
 	}, nil
 }
 
-func (p *MySQLDriver) processRow(rows pgx.Rows) ([]map[string]interface{}, error) {
+func (p *MySQLDriver) processRow(rows *sql.Rows) ([]map[string]interface{}, error) {
 	var result []map[string]interface{}
-	fieldDescriptions := rows.FieldDescriptions()
+	columns, err := rows.Columns()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get columns: %v", err)
+	}
 
 	for rows.Next() {
-		values := make([]interface{}, len(fieldDescriptions))
-		valuePtrs := make([]interface{}, len(fieldDescriptions))
+		values := make([]interface{}, len(columns))
+		valuePtrs := make([]interface{}, len(columns))
 
-		for i := range fieldDescriptions {
+		for i := range columns {
 			valuePtrs[i] = &values[i]
 		}
 
@@ -95,8 +103,8 @@ func (p *MySQLDriver) processRow(rows pgx.Rows) ([]map[string]interface{}, error
 		}
 
 		rowData := make(map[string]interface{})
-		for i, field := range fieldDescriptions {
-			rowData[string(field.Name)] = values[i]
+		for i, col := range columns {
+			rowData[col] = values[i]
 		}
 
 		result = append(result, rowData)
