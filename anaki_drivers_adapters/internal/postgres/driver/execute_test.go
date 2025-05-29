@@ -1,26 +1,26 @@
-package driver_test
+package postgres_test
 
 import (
 	"context"
 	"os"
 	"testing"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
+	postgres "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
 )
 
-func setupDriver(t *testing.T) *driver.PostgresDriver {
+func setupDriver(t *testing.T) *postgres.Driver {
 	connStr := os.Getenv("POSTGRES_TEST_DATABASE_URL")
 	if connStr == "" {
 		t.Fatal("POSTGRES_TEST_DATABASE_URL is not set")
 	}
 
-	config := contracts.Config{
+	config := driver.Config{
 		URL: connStr,
 	}
 
 	ctx := context.Background()
-	driver := &driver.PostgresDriver{}
+	driver := &postgres.Driver{}
 
 	err := driver.Connect(ctx, config)
 	if err != nil {

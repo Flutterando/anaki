@@ -1,4 +1,4 @@
-package driver_test
+package postgres_test
 
 import (
 	"context"
@@ -6,19 +6,19 @@ import (
 
 	"testing"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
+	postgres "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
 )
 
 func TestPostgresDriver_Disconnect_ShouldSucceed(t *testing.T) {
 	connStr := os.Getenv("POSTGRES_TEST_DATABASE_URL")
 
-	config := contracts.Config{
+	config := driver.Config{
 		URL: connStr,
 	}
 
 	ctx := context.Background()
-	db := &driver.PostgresDriver{}
+	db := &postgres.Driver{}
 
 	if err := db.Connect(ctx, config); err != nil {
 		t.Fatalf("expected no error when connecting, got: %v", err)

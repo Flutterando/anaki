@@ -5,15 +5,15 @@ import (
 	"os"
 	"testing"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/ffi"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/ffi"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/ffi"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
 )
 
 func TestPostgresFFI(t *testing.T) {
 	t.Run("DatabaseConnection", func(t *testing.T) {
 		connStr := os.Getenv("POSTGRES_TEST_DATABASE_URL")
-		result := ffi.SetupDatabaseConnection(contracts.Config{
+		result := ffi.SetupDatabaseConnection(driver.Config{
 			URL: connStr,
 		})
 

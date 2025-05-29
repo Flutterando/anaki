@@ -7,8 +7,26 @@ import 'package:anaki_driver_manager/src/execution_result.dart';
 import 'package:ffi/ffi.dart';
 
 class AnakiDriverManager {
-  static final DynamicLibrary _lib = DynamicLibrary.open(
-      'lib/drivers/${Platform.operatingSystem.toLowerCase()}/amd64/postgresql.so');
+  static String get _operatingSystem {
+    if (Platform.isMacOS) return 'darwin';
+    return Platform.operatingSystem.toLowerCase();
+  }
+
+  static String get _architecture {
+    if (!Platform.isMacOS) return 'amd64';
+    return 'arm64';
+  }
+
+  static String get _libraryExtension {
+    if (Platform.isMacOS) return '.dylib';
+    if (Platform.isWindows) return '.dll';
+    return '.so';
+  }
+
+  static String get _libraryPath =>
+      'lib/drivers/$_operatingSystem/$_architecture/postgresql$_libraryExtension';
+
+  static final DynamicLibrary _lib = DynamicLibrary.open(_libraryPath);
 
   static final _connect = _lib.lookupFunction<Int32 Function(Pointer<Utf8>),
       int Function(Pointer<Utf8>)>('Connect');
@@ -24,6 +42,9 @@ class AnakiDriverManager {
     final configJson = jsonEncode(config.toJson()).toNativeUtf8();
     try {
       final status = _connect(configJson);
+
+      malloc.free(configJson);
+
       if (status != Status.SQL_SUCCESS) {
         throw Exception(
             'Failed to connect to database. Status: ${Status.getStatusMessage(status)}');
@@ -42,6 +63,9 @@ class AnakiDriverManager {
     try {
       final resultPtr = _execute(queryPtr, paramsJson);
       final result = resultPtr.toDartString();
+
+      malloc.free(resultPtr);
+
       return ExecutionResult.fromJson(jsonDecode(result));
     } finally {
       malloc.free(queryPtr);
