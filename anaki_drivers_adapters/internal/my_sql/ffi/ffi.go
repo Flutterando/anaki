@@ -10,6 +10,7 @@ import (
 	"fmt"
 
 	mysql "github.com/flutterando/anaki/anaki_drivers_adapters/internal/my_sql/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
 	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
 )
 
@@ -22,7 +23,7 @@ func Connect(configJson *C.char) C.int {
 	}
 
 	configStr := C.GoString(configJson)
-	var cfg mysql.MySQLDriver
+	var cfg driver.Config
 	err := json.Unmarshal([]byte(configStr), &cfg)
 	if err != nil {
 		return ffistatus.SQL_ERROR

@@ -12,7 +12,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*driver.ExecuteResult, error) {
+func (m *MySQLDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*driver.ExecuteResult, error) {
 
 	if query == "" {
 		return nil, errors.New("query is required")
@@ -37,16 +37,16 @@ func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string
 	if isSelect {
 		var rows *sql.Rows
 		if argsResult == nil {
-			rows, err = p.Conn.QueryContext(ctx, queryResult)
+			rows, err = m.Conn.QueryContext(ctx, queryResult)
 		} else {
-			rows, err = p.Conn.QueryContext(ctx, queryResult, argsResult...)
+			rows, err = m.Conn.QueryContext(ctx, queryResult, argsResult...)
 		}
 		if err != nil {
 			return nil, err
 		}
 		defer rows.Close()
 
-		processedRows, err := p.processRow(rows)
+		processedRows, err := m.processRow(rows)
 		if err != nil {
 			return nil, err
 		}
@@ -59,9 +59,9 @@ func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string
 
 	var result sql.Result
 	if argsResult == nil {
-		result, err = p.Conn.ExecContext(ctx, queryResult)
+		result, err = m.Conn.ExecContext(ctx, queryResult)
 	} else {
-		result, err = p.Conn.ExecContext(ctx, queryResult, argsResult...)
+		result, err = m.Conn.ExecContext(ctx, queryResult, argsResult...)
 	}
 
 	if err != nil {

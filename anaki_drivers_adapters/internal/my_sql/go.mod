@@ -1,4 +1,4 @@
-module github.com/flutterando/anaki/anaki_drivers_adapters/modules/my_sql
+module github.com/flutterando/anaki/anaki_drivers_adapters/internal/my_sql
 
 go 1.24.2
 
