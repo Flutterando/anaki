@@ -1,6 +1,6 @@
 filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
-github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres v0.0.0-20250505051425-03237c5b77d9 h1:t9vIy+WAULWvq+qAiTsVuZCp1U916dg2kMAlDrLk6Ak=
-github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres v0.0.0-20250505051425-03237c5b77d9/go.mod h1:9+FxIDvf9La9lI4SQdP9qgF0t4xMitz/2fUNfX2mXF0=
+github.com/flutterando/anaki/anaki_drivers_adapters v0.0.0-20250527012140-1875a24e9997 h1:Wh9sqpbOVET1FdjMFsxdJSyl7Zre1tMfwNEeS3pfVSY=
+github.com/flutterando/anaki/anaki_drivers_adapters v0.0.0-20250527012140-1875a24e9997/go.mod h1:g0xJr0b3LJDMp45aKwI0AkftHWWYNySA/B5zSOxRLY0=
 github.com/go-sql-driver/mysql v1.9.2 h1:4cNKDYQ1I84SXslGddlsrMhc8k4LeDVj6Ad6WRjiHuU=
 github.com/go-sql-driver/mysql v1.9.2/go.mod h1:qn46aNg1333BRMNU69Lq93t8du/dwxI64Gl8i5p1WMU=

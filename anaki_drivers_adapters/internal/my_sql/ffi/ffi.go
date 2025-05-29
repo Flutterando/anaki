@@ -1,17 +1,19 @@
 package ffi
 
+/*
+#include <stdlib.h>
+*/
 import "C"
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/my_sql/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
-	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/ffi"
+	mysql "github.com/flutterando/anaki/anaki_drivers_adapters/internal/my_sql/driver"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
 )
 
-var mysqlDriver *driver.MySQLDriver
+var mysqlDriver *mysql.MySQLDriver
 
 //export Connect
 func Connect(configJson *C.char) C.int {
@@ -20,13 +22,13 @@ func Connect(configJson *C.char) C.int {
 	}
 
 	configStr := C.GoString(configJson)
-	var cfg contracts.Config
+	var cfg mysql.MySQLDriver
 	err := json.Unmarshal([]byte(configStr), &cfg)
 	if err != nil {
 		return ffistatus.SQL_ERROR
 	}
 
-	mysqlDriver = &driver.MySQLDriver{}
+	mysqlDriver = &mysql.MySQLDriver{}
 	ctx := context.Background()
 
 	err = mysqlDriver.Connect(ctx, cfg)

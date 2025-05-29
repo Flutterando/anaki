@@ -3,7 +3,7 @@ package driver
 import (
 	"database/sql"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -15,4 +15,4 @@ func NewMySQLDriver() *MySQLDriver {
 	return &MySQLDriver{}
 }
 
-var _ contracts.DriverAdapter = (*MySQLDriver)(nil)
+var _ driver.DriverAdapter = (*MySQLDriver)(nil)

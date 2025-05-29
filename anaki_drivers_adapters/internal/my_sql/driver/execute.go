@@ -7,19 +7,15 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/utils"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/contracts"
+	sqlparams "github.com/flutterando/anaki/anaki_drivers_adapters/internal/my_sql/sql_params"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*contracts.ExecuteResult, error) {
-	var emptyExecuteResult = &contracts.ExecuteResult{
-		Rows:         []map[string]interface{}{{}},
-		RowsAffected: 0,
-	}
+func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string]interface{}) (*driver.ExecuteResult, error) {
 
 	if query == "" {
-		return emptyExecuteResult, errors.New("query is required")
+		return nil, errors.New("query is required")
 	}
 
 	var queryResult string
@@ -27,9 +23,9 @@ func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string
 	var err error
 
 	if len(args) > 0 {
-		queryResult, argsResult, err = utils.ConvertNamedParams(query, args)
+		queryResult, argsResult, err = sqlparams.ConvertNamedParamsToDollar(query, args)
 		if err != nil {
-			return emptyExecuteResult, err
+			return nil, err
 		}
 	} else {
 		queryResult = query
@@ -46,16 +42,16 @@ func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string
 			rows, err = p.Conn.QueryContext(ctx, queryResult, argsResult...)
 		}
 		if err != nil {
-			return emptyExecuteResult, err
+			return nil, err
 		}
 		defer rows.Close()
 
 		processedRows, err := p.processRow(rows)
 		if err != nil {
-			return emptyExecuteResult, err
+			return nil, err
 		}
 
-		return &contracts.ExecuteResult{
+		return &driver.ExecuteResult{
 			Rows:         processedRows,
 			RowsAffected: 0,
 		}, nil
@@ -69,15 +65,15 @@ func (p *MySQLDriver) Execute(ctx context.Context, query string, args map[string
 	}
 
 	if err != nil {
-		return emptyExecuteResult, err
+		return nil, err
 	}
 
 	rowsAffected, err := result.RowsAffected()
 	if err != nil {
-		return emptyExecuteResult, err
+		return nil, err
 	}
 
-	return &contracts.ExecuteResult{
+	return &driver.ExecuteResult{
 		Rows:         []map[string]interface{}{{}},
 		RowsAffected: rowsAffected,
 	}, nil
