@@ -5,9 +5,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/ffi"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
-	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/pkg/ffi"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/driver"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/ffi"
 )
 
 func TestPostgresFFI(t *testing.T) {

@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"strings"
 
-	sqlparams "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/sql_params"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/internal/sqlparams"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/driver"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgconn"
 )

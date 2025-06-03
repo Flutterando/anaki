@@ -6,8 +6,8 @@ import (
 
 	"testing"
 
-	postgres "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
+	postgres "github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/internal/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/driver"
 )
 
 func TestPostgresDriver_Connect_ShouldSucceed(t *testing.T) {

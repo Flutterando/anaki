@@ -9,9 +9,9 @@ import (
 	"encoding/json"
 	"fmt"
 
-	postgres "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/driver"
-	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
-	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
+	postgres "github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/internal/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/driver"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/ffi"
 )
 
 var postgresDriver *postgres.Driver

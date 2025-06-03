@@ -18,15 +18,14 @@ import (
 //
 // Example:
 //
-//   Input:
-//     query = "SELECT * from users where id = :id AND name = :name AND id = :id"
-//     params = { "id": 2, "name": "Marcos" }
+//	Input:
+//	  query = "SELECT * from users where id = :id AND name = :name AND id = :id"
+//	  params = { "id": 2, "name": "Marcos" }
 //
-//   Output:
-//     finalQuery = "SELECT * from users where id = $1 AND name = $2 AND id = $1"
-//     args = []interface{}{2, "Marcos"}
-//     err = nil
-//
+//	Output:
+//	  finalQuery = "SELECT * from users where id = $1 AND name = $2 AND id = $1"
+//	  args = []interface{}{2, "Marcos"}
+//	  err = nil
 func ConvertNamedParamsToDollar(query string, params map[string]interface{}) (string, []interface{}, error) {
 	if !strings.Contains(query, ":") {
 		return query, []interface{}{}, nil

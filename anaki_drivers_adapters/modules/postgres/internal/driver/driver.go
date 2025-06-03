@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/driver"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 

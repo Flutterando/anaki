@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	sqlparams "github.com/flutterando/anaki/anaki_drivers_adapters/internal/postgres/sql_params"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/modules/postgres/internal/sqlparams"
 )
 
 func TestConvertNamedParams(t *testing.T) {

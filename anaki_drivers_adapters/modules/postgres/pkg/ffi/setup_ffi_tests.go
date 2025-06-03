@@ -9,8 +9,8 @@ import (
 	"encoding/json"
 	"unsafe"
 
-	"github.com/flutterando/anaki/anaki_drivers_adapters/pkg/driver"
-	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/pkg/ffi"
+	"github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/driver"
+	ffistatus "github.com/flutterando/anaki/anaki_drivers_adapters/shared/pkg/ffi"
 )
 
 func SetupDatabaseConnection(config driver.Config) int {
