@@ -42,5 +42,5 @@ jobs:
         run: go mod tidy
 
       - name: Run tests
-        working-directory: ./anaki_drivers_adapters
-        run: go test ./internal/postgres/...
+        working-directory: ./anaki_drivers_adapters/modules/postgres
+        run: go test ./internal/...
