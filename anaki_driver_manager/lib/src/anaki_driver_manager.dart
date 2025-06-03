@@ -43,8 +43,6 @@ class AnakiDriverManager {
     try {
       final status = _connect(configJson);
 
-      malloc.free(configJson);
-
       if (status != Status.SQL_SUCCESS) {
         throw Exception(
             'Failed to connect to database. Status: ${Status.getStatusMessage(status)}');
@@ -63,8 +61,6 @@ class AnakiDriverManager {
     try {
       final resultPtr = _execute(queryPtr, paramsJson);
       final result = resultPtr.toDartString();
-
-      malloc.free(resultPtr);
 
       return ExecutionResult.fromJson(jsonDecode(result));
     } finally {
